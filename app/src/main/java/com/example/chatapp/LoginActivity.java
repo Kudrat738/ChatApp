@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
          FloatingActionButton login=(FloatingActionButton) findViewById(R.id.login);
         final FloatingActionButton remember=(FloatingActionButton) findViewById(R.id.remember);
         imageView=(ImageView)findViewById(R.id.remember_view);
-        boolean isRemember = pref.getBoolean("remember_pass",false);
         SharedPreferences preferences=getSharedPreferences("remember",MODE_PRIVATE);
         rememberPass=preferences.getBoolean("remember",false);
 
@@ -52,19 +51,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 SharedPreferences.Editor sava=getSharedPreferences("remember",MODE_PRIVATE).edit();
+                sava.clear();
                 sava.putBoolean("remember",rememberPass);
                 sava.apply();
 
             }});
-//判断是否需要记住账户密码
-        if(isRemember){
-//从SharedPreferences中获取保存的账户及密码信息
-            String account = pref.getString("account","");
-            String password = pref.getString("password","");
-//将账户和密码设置到文本框
-            accountEditText.setText(account);
-            passwordEditText.setText(password);
-        }
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor = pref.edit();
                     if(rememberPass){
 //储存数据到SharedPreferences
-                        editor.putBoolean("remember_pass",true);
+
                         editor.putString("account",account);
                         editor.putString("password",password);
                     }
@@ -86,12 +78,33 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
 
+
                 }else{
                     Toast.makeText(LoginActivity.this,"invalid",Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
+
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences preferences=getSharedPreferences("remember",MODE_PRIVATE);
+        rememberPass=preferences.getBoolean("remember",false);
+        //判断是否需要记住账户密码
+        if(rememberPass){
+//从SharedPreferences中获取保存的账户及密码信息
+            String account = pref.getString("account","");
+            String password = pref.getString("password","");
+//将账户和密码设置到文本框
+            accountEditText.setText(account);
+            passwordEditText.setText(password);
+        }else {
+            accountEditText.setText("");
+            passwordEditText.setText("");
+        }
+
     }
 
 }

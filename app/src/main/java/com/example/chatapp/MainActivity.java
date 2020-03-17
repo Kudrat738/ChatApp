@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 savalist.putString("listchat",data);
                 savalist.apply();
                 Intent intent=new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
+                  startActivity(intent);
 
             }
         });}
