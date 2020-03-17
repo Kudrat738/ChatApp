@@ -82,10 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(LoginActivity.this,"invalid",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
     }
     @Override
     protected void onStart() {
@@ -94,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         rememberPass=preferences.getBoolean("remember",false);
         //判断是否需要记住账户密码
         if(rememberPass){
+            imageView.setImageResource(R.drawable.secend);
 //从SharedPreferences中获取保存的账户及密码信息
             String account = pref.getString("account","");
             String password = pref.getString("password","");
@@ -101,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
             accountEditText.setText(account);
             passwordEditText.setText(password);
         }else {
-            accountEditText.setText("");
             passwordEditText.setText("");
+            accountEditText.setText("");
         }
 
     }
